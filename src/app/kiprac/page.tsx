@@ -38,6 +38,7 @@ import {
   recoveryRate,
   forecastProfit,
   forecastMargin,
+  currentSummary,
 } from '@/lib/kiprac/ledger'
 
 export const metadata: Metadata = {
@@ -48,7 +49,8 @@ export const metadata: Metadata = {
 const UPDATED = '2026-07-06'
 
 const nav = [
-  { id: 'summary', label: '損益サマリー' },
+  { id: 'current', label: '最新サマリー' },
+  { id: 'summary', label: 'Oasis内訳(7月)' },
   { id: 'parts', label: '部材単価マスタ' },
   { id: 'cards', label: '下代カード' },
   { id: 'cost-summary', label: '下代サマリー' },
@@ -131,9 +133,28 @@ export default function KipracLedgerPage() {
       </nav>
 
       <main className="mx-auto max-w-6xl space-y-12 px-4 py-12">
-        {/* 損益サマリー */}
+        {/* 最新サマリー（会社データ・2026-09） */}
+        <section id="current" className="scroll-mt-20">
+          <div className="mb-5 flex items-baseline gap-3">
+            <h2 className="text-xl font-bold tracking-tight text-neutral-50 sm:text-2xl">最新サマリー</h2>
+            <span className="text-sm text-neutral-500">会社データ・{currentSummary.asOf}時点</span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+            <Stat label="累計売上" value={yen(currentSummary.sales)} accent hint={`${currentSummary.unitsSold}点販売`} />
+            <Stat label="利益" value={yen(currentSummary.profit)} accent hint={`利益率 ${pct(currentSummary.profitRate)}`} />
+            <Stat label="仕入れ回収率" value={pct(currentSummary.recoveryRate)} accent hint="売上ベース" />
+            <Stat label="総仕入れ額" value={yen(currentSummary.totalPurchase)} />
+            <Stat label="現在庫" value={`${currentSummary.stock}点`} />
+            <Stat label="Instagramフォロワー" value={`${currentSummary.followers}名`} hint={`目標 ${currentSummary.followerGoal}名`} />
+          </div>
+          <p className="mt-4 rounded-xl border border-[#d7ff2e]/30 bg-[#d7ff2e]/[0.04] p-4 text-sm text-neutral-300">
+            {currentSummary.note} 以下の詳細テーブルは Oasisシリーズ（7月時点）の原価・在庫内訳で、費目レベルの参照用に保持しています。
+          </p>
+        </section>
+
+        {/* 損益サマリー（Oasisシリーズ7月内訳） */}
         <section id="summary" className="scroll-mt-20">
-          <h2 className="mb-5 text-xl font-bold tracking-tight text-neutral-50 sm:text-2xl">現時点 損益サマリー</h2>
+          <h2 className="mb-5 text-xl font-bold tracking-tight text-neutral-50 sm:text-2xl">損益サマリー（Oasisシリーズ・7月内訳）</h2>
           <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
             <Stat label="総仕入れ額" value={yen(totalPurchase)} hint="全材料（損益の分母）" />
             <Stat label="現在の総売上" value={yen(totalSales)} hint={`販売済 ${soldCount}点`} />

@@ -15,6 +15,23 @@ export const FACTORY_RATE = 0.7 // オリオンファクトリー委託: 上代 
 export const yen = (n: number): string => `¥${Math.round(n).toLocaleString('ja-JP')}`
 export const pct = (n: number): string => `${n.toFixed(1)}%`
 
+// ── 最新サマリー（会社データ state.js より・2026-09時点の確定値）─────
+// ↓の詳細テーブル群は Oasisシリーズ7月スナップショットの内訳。
+// 会社全体の最新実績はここが正（Oasis完売＋マイケルTee新作を反映後）。
+export const currentSummary = {
+  asOf: '2026-09-11',
+  sales: 213320, // 累計売上（21点販売）
+  unitsSold: 21,
+  profit: 113097, // 利益（利益率53.0%）
+  profitRate: 53.0,
+  recoveryRate: 122.9, // 仕入れ回収率（売上ベース）
+  totalPurchase: 209667, // 総仕入れ額
+  stock: 26, // 現在庫点数
+  followers: 556, // Instagramフォロワー（広告 +146人後）
+  followerGoal: 1000,
+  note: 'Oasis Flower Shirt完売。新作マイケルTee（上代¥8,800・EC利益率73.6%）追加。',
+}
+
 // ── 共通部材 単価マスタ ──────────────────────────────────────
 export interface PartMaster {
   part: string
@@ -326,6 +343,7 @@ export const retailListings: RetailListing[] = [
   { name: 'Oasis Mirage-Camo Denim（Wide-Legs）', price: 18700 },
   { name: 'デニムパンツ（新作）', price: 14300 },
   { name: 'Oasis Mirage S/S Tee（Tribal Frame）', price: 7700 },
+  { name: 'マイケルTee（King of Pop）', price: 8800 },
   { name: '3D logo S/S Tee', price: 7700 },
   { name: 'One of favorite cheesecake S/S Tee', price: 7700 },
   { name: 'KIPRAC BASIC TEE', price: 5500 },
